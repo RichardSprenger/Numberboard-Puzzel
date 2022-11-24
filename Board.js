@@ -15,19 +15,14 @@ class Board {
     }
 
     checkIfSquareIsOccupied(x, y, value) {
-        console.log(x + " | " + y)
         if (this.board[y][x] == 0) return false;
 
-        for (let i = 0; i < this.board[x][y].values.length; i++) {
+        for (let i = 0; i < this.board[y][x].values.length; i++) {
             if (_Square.checkIfTriangleIsOccupied(this.board[y][x].values[i], value))
                 return true;
         }
 
         return false;
-    }
-
-    updateValue(x, y, value, number) {
-        this.board[y][x].insert(value, number)
     }
 
     updateBoard() {
@@ -45,9 +40,9 @@ class Board {
                 square.className = "container grid-container"
                 square.addEventListener("click", function() {insertNumberToGrid(j, i)}, false)
 
-                if (this.board[i][j].combinedValue == 15) {
+                if (this.board[i][j].combinedValue == 15 && this.board[i][j].values.findIndex(value => value == 15) != -1) {
                     square.className += " full-background"
-                    square.style.backgroundColor = COLORS[this.board[i][j].numbers[0]]
+                    square.style.backgroundColor = COLORS[this.board[i][j].numbers[this.board[i][j].values.findIndex(value => value == 15)]]
                 } else {
                     let triangle1 = document.createElement("div")
                     triangle1.className = "triangle triangle-top"
@@ -64,12 +59,11 @@ class Board {
                     let usedSquares = [false, false, false, false]
                     
                     for (let k = 0; k < this.board[i][j].values.length; k++) {
-                        
                         if ((this.board[i][j].values[k] & 1) === 1) {
                             triangle4.style.borderBottomColor = COLORS[this.board[i][j].numbers[k]]
                             usedSquares[0] = true
                         }
-
+                        
                         if ((this.board[i][j].values[k] & 2) === 2) {
                             triangle2.style.borderLeftColor = COLORS[this.board[i][j].numbers[k]]
                             usedSquares[1] = true
@@ -83,8 +77,7 @@ class Board {
                         if ((this.board[i][j].values[k] & 8) === 8) {
                             triangle3.style.borderRightColor = COLORS[this.board[i][j].numbers[k]]
                             usedSquares[3] = true
-                        }
-                        
+                        }                        
                     }
 
                     if (!usedSquares[0]) triangle4.className += " hidden"

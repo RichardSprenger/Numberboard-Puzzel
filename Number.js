@@ -8,14 +8,10 @@ class _Number {
     // Initialized with an 8
     squares = [[9, 15, 15, 3], [15, 0, 0 , 15], [15, 0, 0, 15], [13, 15, 15, 7], [15, 0, 0, 15], [15, 0, 0, 15], [12, 15, 15, 6]]
 
-    // 0 == upright
-    // 1 == turned 90°
-    // 2 == turned 180°
-    // 3 == turned 270°
     orientation = 0
     insertedX = -1
     insertedY = -1
-    insertedOrientation = -1
+    insertedState = []
 
     constructor(value) {
         this.value = value
@@ -27,7 +23,8 @@ class _Number {
     createNumber(value) {
         switch (value) {
             case 0: this.squares = [[9, 15, 15, 3], [15, 0, 0, 15], [15, 0, 0, 15], [1, 0, 0, 13], [15, 0, 0, 15], [15, 0, 0, 15], [12, 15, 15, 6]]; break;
-            case 1: this.squares = [[1, 0, 0, 0], [15, 0, 0, 0], [15, 0, 0, 0], [7, 0, 0, 0], [15, 0, 0, 0], [15, 0, 0, 0], [4, 0, 0, 0]]; break;
+            // case 1: this.squares = [[1, 0, 0, 0], [15, 0, 0, 0], [15, 0, 0, 0], [7, 0, 0, 0], [15, 0, 0, 0], [15, 0, 0, 0], [4, 0, 0, 0]]; break;
+            case 1: this.squares = [[1], [15], [15], [7], [15], [15], [4]]; break;
             case 2: this.squares = [[8, 15, 15, 3], [0, 0, 0, 15], [0, 0, 0, 15], [9, 15, 15, 6], [15, 0, 0, 0], [15, 0, 0, 0], [12, 15, 15, 2]]; break;
             case 3: this.squares = [[8, 15, 15, 3], [0, 0, 0, 15], [0, 0, 0, 15], [8, 15, 15, 7], [0, 0, 0, 15], [0, 0, 0, 15], [8, 15, 15, 6]]; break;
             case 4: this.squares = [[1, 0, 0, 1], [15, 0, 0, 15], [15, 0, 0, 15], [12, 15, 15, 7], [0, 0, 0, 15], [0, 0, 0, 15], [0, 0, 0, 4]]; break;
@@ -153,4 +150,53 @@ class _Number {
         this.squares = this.squares[0].map((col, i) => this.squares.map(row => row[i]));
     }
 
+    flipVertical() {
+        // mirror array vertically
+        this.squares.map(function(arr){return arr.reverse();});
+
+        // Change left triangles to right and the other way arount
+        for (let i = 0; i < this.squares.length; i ++) {
+            for (let j = 0; j < this.squares[i].length; j++) {
+                // store value in that second if will not be influenced by first
+                if (this.squares[i][j] != 15 && this.squares[i][j] != 0) {
+                    let store = 0;
+                    if ((this.squares[i][j] & 2) === 2) store += 6;
+                    if ((this.squares[i][j] & 8) === 8) store += -6;
+                    this.squares[i][j] += store
+                }
+            }
+        }
+        
+        this.displayNumber()
+        showMenu.call(this)
+    }
+    
+    flipHorizontal() {
+        // mirror array horizontally
+        // this.squares.map(function(arr){return arr.reverse();});
+        
+        // Change top triangles to bottom and the other way arount
+        for (let i = 0; i < this.squares.length; i ++) {
+            for (let j = 0; j < this.squares[i].length; j++) {
+                // Only reverse halfe the array
+                if (i < Math.floor(this.squares.length / 2)) {
+                    let save = this.squares[i][j]
+                    this.squares[i][j] = this.squares[this.squares.length - 1 - i][j]
+                    this.squares[this.squares.length - 1 - i][j] = save
+                }
+
+                // store value in that second if will not be influenced by first
+                if (this.squares[i][j] != 15 && this.squares[i][j] != 0) {
+                    let store = 0;
+                    if ((this.squares[i][j] & 1) === 1) store += 3;
+                    if ((this.squares[i][j] & 4) === 4) store += -3;
+                    this.squares[i][j] += store
+                }
+            }
+        }
+
+        this.displayNumber()
+        showMenu.call(this)
+    }
+    
 }

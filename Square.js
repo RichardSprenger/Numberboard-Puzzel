@@ -28,7 +28,7 @@ class _Square {
     }
 
     remove(number) {
-        let i = this.numbers.findIndex(number)
+        let i = this.numbers.findIndex(num => num == number)
         this.combinedValue -= this.values[i];
         this.values.splice(i, 1)
         this.numbers.splice(i, 1)

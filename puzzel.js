@@ -40,6 +40,14 @@ function showMenu() {
     var value = this.value
     numberToBeInserted = -1;
 
+    // Check if all numbers are added
+    if (insertedNumbers.length == 10) {
+        win = document.createElement("div")
+        win.className = "winBanner"
+        win.innerHTML = "<h1>Herzlichen Glückwunsch!</h1> <br> <h2>Du hast gewonnen. Alle Zahlen sind im Grid</h2>"
+        document.body.appendChild(win)
+    }
+
     var menu = document.getElementById("menu")
     var container = document.getElementById("menu-container")
     if (container != null) menu.removeChild(container)
@@ -73,6 +81,18 @@ function showMenu() {
         rotateLeft.innerHTML = "Nach Links drehen"
         rotateLeft.addEventListener("click", function() {numberArray[value].rotate(false)}, false)
         
+        var flip = document.createElement("button")
+        flip.className = "flip"
+        flip.innerHTML = "Vertikal spiegeln"
+        flip.addEventListener("click", function() {numberArray[value].flipVertical()}, false)
+
+        var flipH = document.createElement("button")
+        flipH.className = "flip"
+        flipH.innerHTML = "Horizontal spiegeln"
+        flipH.addEventListener("click", function() {numberArray[value].flipHorizontal()}, false)
+
+        container.appendChild(flip)
+        container.appendChild(flipH)
         container.appendChild(rotateLeft)
         container.appendChild(rotateRight)
         
@@ -100,16 +120,26 @@ function prepareInsertNumberToGrid() {
 }
 
 function removeNumberFromGrid() {
-    var number = numberArray[numberToBeInserted]
+    // Check that number was not inserted previously
+    if (insertedNumbers.filter(n => n == this.value).length == 0) {
+        infoBanner("Diese Nummer ist nicht mehr im Grid vorhanden!", true)
+        return;
+    }
 
+    for (let i = 0; i < this.insertedState.length; i ++) {
+        for (let j = 0; j < this.insertedState[i].length; j++) {
+            board.board[this.insertedY + i][this.insertedX + j].remove(this.value)
+        }
+    }
+    
+    this.insertedX = -1;
+    this.insertedY = -1;
+    this.insertedState = [];
+    insertedNumbers.splice(insertedNumbers.findIndex(val => val == this.value), 1);
+    numberToBeInserted = -1
 
-    // ToDo: Remove from Board
-
-
-    number.insertedX = -1;
-    number.insertedY = -1;
-    number.insertedOrientation = -1;
-    insertedNumbers.splice(insertedNumbers.findIndex(number.value), 1);
+    board.updateBoard()
+    showMenu.call()
 }
 
 function insertNumberToGrid(x, y) {    
@@ -123,7 +153,7 @@ function insertNumberToGrid(x, y) {
 
     // Check that number was not inserted previously
     if (insertedNumbers.filter(n => n == number.value).length > 0) {
-        infoBanner("Diese Nummer ist schon im Grid vorhanden! Entferne die Nummer aus dem Grid oder wähle eine andere Nummer aus", true)
+        infoBanner("Diese Nummer ist schon im Grid vorhanden! Entferne die Nummer aus dem Grid oder wähle eine andere Nummer aus.", true)
         return;
     }
 
@@ -132,8 +162,6 @@ function insertNumberToGrid(x, y) {
         infoBanner("Kein Platz für die Nummer! Bitte neues Feld wählen", true)
         return;
     }
-
-
 
     for (let i = 0; i < number.squares.length; i ++) {
         for (let j = 0; j < number.squares[i].length; j++) {
@@ -146,13 +174,13 @@ function insertNumberToGrid(x, y) {
 
     for (let i = 0; i < number.squares.length; i ++) {
         for (let j = 0; j < number.squares[i].length; j++) {
-            board.updateValue(x + j, y + i, number.squares[i][j], number.value)
+            board.board[y + i][x + j].insert(number.squares[i][j], number.value)
         }
     }
 
     number.insertedX = x;
     number.insertedY = y;
-    number.insertedOrientation = number.orientation;
+    number.insertedState = number.squares;
     // Insert Number
     insertedNumbers.push(number.value)
     numberToBeInserted = -1
