@@ -1,0 +1,26 @@
+{
+  "name": "number-puzzel-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "puzzel.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RichardSprenger/Numberboard-Puzzel.git"
+  },
+  "keywords": [
+    "JS;",
+    "puzzel"
+  ],
+  "author": "Richard Sprenger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RichardSprenger/Numberboard-Puzzel/issues"
+  },
+  "homepage": "https://github.com/RichardSprenger/Numberboard-Puzzel#readme",
+  "devDependencies": {
+    "eslint": "^8.28.0"
+  }
+}
