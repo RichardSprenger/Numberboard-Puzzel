@@ -43,8 +43,8 @@ class _Number {
         number = document.createElement("div");
         
         number.className = "number";
-        number.style.gridTemplateColumns = "repeat(" + this.squares[0].length + ", 3vh)";
-        number.style.gridTemplateRows = "repeat(" + this.squares.length + ", 3vh)";
+        number.style.gridTemplateColumns = "repeat(" + this.squares[0].length + ", 2vh)";
+        number.style.gridTemplateRows = "repeat(" + this.squares.length + ", 2vh)";
         number.id = "header-number-" + this.value;
 
         // Add event listener for menue on number
@@ -62,7 +62,7 @@ class _Number {
         for (let i = 0; i < this.squares.length; i ++) {
             for (let j = 0; j < this.squares[i].length; j++) {
                 let square = document.createElement("div");
-                square.className = "container";
+                square.className = "triangle-container";
             
                 if (this.squares[i][j] == 15) {
                     square.className += " full-background";

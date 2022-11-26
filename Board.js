@@ -37,7 +37,7 @@ class Board {
         for (let i = 0; i < this.board.length; i++) {
             for (let j = 0; j < this.board[i].length; j++) {
                 let square = document.createElement("div");
-                square.className = "container grid-container";
+                square.className = "triangle-container grid-container";
                 square.addEventListener("click", function() {insertNumberToGrid(j, i);}, false);
 
                 if (this.board[i][j].combinedValue == 15 && this.board[i][j].values.findIndex(value => value == 15) != -1) {
