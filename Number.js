@@ -43,8 +43,12 @@ class _Number {
         number = document.createElement("div");
         
         number.className = "number";
-        number.style.gridTemplateColumns = "repeat(" + this.squares[0].length + ", 2vh)";
-        number.style.gridTemplateRows = "repeat(" + this.squares.length + ", 2vh)";
+        number.style.gridTemplateColumns = "repeat(" 
+            + this.squares[0].length + ", " 
+            + getComputedStyle(document.documentElement).getPropertyValue("--header-grid-cell-size") + ")";
+        number.style.gridTemplateRows = "repeat(" 
+            + this.squares.length + ", " 
+            + getComputedStyle(document.documentElement).getPropertyValue("--header-grid-cell-size") + ")";
         number.id = "header-number-" + this.value;
 
         // Add event listener for menue on number

@@ -38,7 +38,10 @@ class Board {
             for (let j = 0; j < this.board[i].length; j++) {
                 let square = document.createElement("div");
                 square.className = "triangle-container grid-container";
-                square.addEventListener("click", function() {insertNumberToGrid(j, i);}, false);
+                square.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                    insertNumberToGrid(j, i);
+                }, false);
 
                 if (this.board[i][j].combinedValue == 15 && this.board[i][j].values.findIndex(value => value == 15) != -1) {
                     square.className += " full-background";

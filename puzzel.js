@@ -83,7 +83,10 @@ function showMenu() {
             var insertNumber = document.createElement("button");
             insertNumber.className = "insertNumber";
             insertNumber.innerHTML = "Nummer im Grid einfügen";
-            insertNumber.addEventListener("click", function() {prepareInsertNumberToGrid.call(self);}, false);
+            insertNumber.addEventListener("click", function(event) {
+                event.stopPropagation();
+                prepareInsertNumberToGrid.call(self);
+            }, false);
             container.appendChild(insertNumber);
         }
         
@@ -100,6 +103,36 @@ function showMenu() {
 function prepareInsertNumberToGrid() {
     numberToBeInserted = this.value;
     infoBanner("Bitte Pinkt im Grid auswählen!", false);
+
+
+    // Let Element hover at mouse position
+
+    var numberClone = document.getElementById("header-number-clone")
+
+    if (numberClone != null) document.body.removeChild(numberClone)
+
+    // Clone number 
+    const number = document.getElementById("header-number-" + this.value)
+    numberClone = number.cloneNode(true)
+
+    numberClone.className = "number number-clone"
+    numberClone.id = "header-number-clone"
+
+    numberClone.style.gridTemplateColumns = "repeat(" 
+        + this.squares[0].length + ", " 
+        + getComputedStyle(document.documentElement).getPropertyValue("--grid-grid-cell-size") + ")";
+    numberClone.style.gridTemplateRows = "repeat(" 
+        + this.squares.length + ", " 
+        + getComputedStyle(document.documentElement).getPropertyValue("--grid-grid-cell-size") + ")";
+
+    document.body.appendChild(numberClone)
+    
+    document.body.addEventListener('mousemove', function(event) {
+        numberClone.style.top = event.pageY  + 'px'
+        numberClone.style.left = event.pageX + 'px'
+    })
+    
+
 }
 
 function removeNumberFromGrid() {
@@ -155,6 +188,10 @@ function insertNumberToGrid(x, y) {
         }
     }
 
+    // Remove clone from body
+    var numberClone = document.getElementById("header-number-clone")
+    if (numberClone != null) document.body.removeChild(numberClone)
+
     for (let i = 0; i < number.squares.length; i ++) {
         for (let j = 0; j < number.squares[i].length; j++) {
             board.board[y + i][x + j].insert(number.squares[i][j], number.value);
@@ -174,6 +211,16 @@ function insertNumberToGrid(x, y) {
 }
 
 // ------ //
+
+// Remove number clone if document other than grid is clicked
+document.getElementById("grid").onclick = function(event) {
+    event.stopPropagation();
+}
+
+document.body.onclick = function() {
+    var numberClone = document.getElementById("header-number-clone")
+    if (numberClone != null) document.body.removeChild(numberClone)
+}
 
 var numberArray = [];
 var numberToBeInserted = -1;
