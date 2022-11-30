@@ -23,7 +23,7 @@ function showMenu() {
     numberToBeInserted = -1;
 
     // Check if all numbers are added
-    if (insertedNumbers.length == 1) {
+    if (insertedNumbers.length == 10) {
         let win = document.createElement("div");
         win.className = "winBanner";
         document.body.appendChild(win);
