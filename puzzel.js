@@ -23,11 +23,18 @@ function showMenu() {
     numberToBeInserted = -1;
 
     // Check if all numbers are added
-    if (insertedNumbers.length == 10) {
+    if (insertedNumbers.length == 1) {
         let win = document.createElement("div");
         win.className = "winBanner";
-        win.innerHTML = "<h1>Herzlichen Glückwunsch!</h1> <br> <h2>Du hast gewonnen. Alle Zahlen sind im Grid</h2>";
         document.body.appendChild(win);
+        let winContainer = document.createElement("div");
+        winContainer.innerHTML = "<h1>Herzlichen Glückwunsch!</h1> <br> <h2>Du hast alle Zahlen im Grid untergebracht!</h2>"
+        winContainer.className = "win-container"
+        
+        win.appendChild(winContainer)
+        
+        winContainer.onclick = function(event) {event.stopPropagation();}
+        win.onclick = function() {win.className += " hidden"}
     }
 
     var menu = document.getElementById("menu");

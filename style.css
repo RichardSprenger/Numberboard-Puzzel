@@ -255,3 +255,34 @@ button:hover {
   left: var(--grid-triangle-size);
   border-right: var(--grid-triangle-size) solid black; 
 }
+
+.winBanner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(156, 156, 156, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+.winBanner.hidden {
+  display: none;
+}
+
+.winBanner:hover {
+  cursor: pointer;
+}
+
+.win-container {
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 20px;
+  cursor: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
