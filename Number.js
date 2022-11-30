@@ -69,25 +69,25 @@ class _Number {
                     square.style.backgroundColor = COLORS[this.value];
                 } else {
                     let triangle1 = document.createElement("div");
-                    triangle1.className = "triangle triangle-top";
+                    triangle1.className = "triangle triangle-top-header";
                     triangle1.style.borderTopColor = COLORS[this.value];
                     if (!((this.squares[i][j] & 4) === 4)) triangle1.className += " hidden";
                     square.appendChild(triangle1);
                     
                     let triangle2 = document.createElement("div");
-                    triangle2.className = "triangle triangle-left";
+                    triangle2.className = "triangle triangle-left-header";
                     triangle2.style.borderLeftColor = COLORS[this.value];
                     if (!((this.squares[i][j] & 2) === 2)) triangle2.className += " hidden";
                     square.appendChild(triangle2);
                     
                     let triangle3 = document.createElement("div");
-                    triangle3.className = "triangle triangle-right";
+                    triangle3.className = "triangle triangle-right-header";
                     triangle3.style.borderRightColor = COLORS[this.value];
                     if (!((this.squares[i][j] & 8) === 8)) triangle3.className += " hidden";
                     square.appendChild(triangle3);
                     
                     let triangle4 = document.createElement("div");
-                    triangle4.className = "triangle triangle-bottom";
+                    triangle4.className = "triangle triangle-bottom-header";
                     triangle4.style.borderBottomColor = COLORS[this.value];
                     if (!((this.squares[i][j] & 1) === 1)) triangle4.className += " hidden";
                     square.appendChild(triangle4);
